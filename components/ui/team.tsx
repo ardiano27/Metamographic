@@ -15,19 +15,19 @@ const teamMembers = [
   {
     image:
       "/chatte.jpg",
-    name: "Chatte",
+    name: "Usamah Hasanz",
     role: "Motion Director",
   },
   {
     image:
       "/suf.jpg",
-    name: "Mr. Zayn",
+    name: "Yusuf izzat",
     role: "VFX Artist",
   },
   {
     image:
       "/pid.jpg",
-    name: "Pid",
+    name: "Roofid Rizqu",
     role: "3D Designer",
   },
   {
@@ -39,7 +39,7 @@ const teamMembers = [
   {
     image:
       "/acel.jpg",
-    name: "Cell's Here",
+    name: "Marcelino",
     role: "Compositor",
   },
 ];
