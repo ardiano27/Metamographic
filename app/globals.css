@@ -591,6 +591,17 @@ section {
   text-transform: uppercase;
   color: rgba(139, 92, 246, 0.4);
 }
+/* Typewriter cursor inside philosophy quote */
+.philosophy-quote span span {
+  background: linear-gradient(135deg, #8B5CF6 0%, #22D3EE 50%, #8B5CF6 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 5s ease infinite;
+  font-weight: 800;
+}
+
 .philosophy-quote {
   font-family: 'Syne', sans-serif;
   font-size: clamp(28px, 4.5vw, 54px);
@@ -902,6 +913,237 @@ select.form-input option {
   animation: check-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+/* ─── Marquee Component ─── */
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  gap: var(--gap, 1.5rem);
+}
+.marquee-horizontal-dir {
+  flex-direction: row;
+}
+.marquee-vertical-dir {
+  flex-direction: column;
+}
+.marquee-scroll-group {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-around;
+  gap: var(--gap, 1.5rem);
+}
+.marquee-scroll-horizontal {
+  flex-direction: row;
+  animation: marquee 40s linear infinite;
+}
+.marquee-scroll-vertical {
+  flex-direction: column;
+  animation: marquee-vertical 40s linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-pause-hover:hover,
+.marquee-container:hover .marquee-pause-hover {
+  animation-play-state: paused;
+}
+
+/* ─── Team Marquee Section ─── */
+
+.team-marquee-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #0D1B2A;
+  padding: 5rem 0 6rem;
+}
+.team-deco-svg {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: rgba(139, 92, 246, 0.08);
+}
+.team-marquee-inner {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.team-marquee-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1.5rem;
+  margin-bottom: 4rem;
+}
+.team-marquee-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+}
+.team-marquee-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #F8FAFC;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.team-marquee-title-deco {
+  position: absolute;
+  top: -8px;
+  right: -32px;
+  z-index: -1;
+  width: 96px;
+  color: rgba(139, 92, 246, 0.15);
+}
+.team-marquee-subtitle {
+  max-width: 520px;
+  color: rgba(248, 250, 252, 0.55);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Marquee track */
+.team-marquee-track {
+  position: relative;
+  width: 100%;
+}
+.team-marquee-fade-left {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 120px;
+  background: linear-gradient(to right, #0D1B2A, transparent);
+}
+.team-marquee-fade-right {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  height: 100%;
+  width: 120px;
+  background: linear-gradient(to left, #0D1B2A, transparent);
+}
+
+/* Cards */
+.team-marquee-card {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  flex-shrink: 0;
+}
+.team-marquee-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  transition: all 0.4s;
+}
+.team-marquee-img-wrap:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+}
+.team-marquee-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+.team-marquee-img-wrap:hover .team-marquee-img {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+.team-marquee-label {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(139, 92, 246, 0.1);
+}
+.team-marquee-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #F8FAFC;
+}
+.team-marquee-role {
+  font-size: 0.8rem;
+  color: #22D3EE;
+  opacity: 0.8;
+}
+
+/* Testimonial */
+.team-marquee-testimonial {
+  max-width: 720px;
+  margin: 5rem auto 0;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+.team-marquee-quote {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.7;
+  color: rgba(248, 250, 252, 0.8);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+.team-marquee-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.team-marquee-author-avatar {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(139, 92, 246, 0.4);
+}
+.team-marquee-author-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.team-marquee-author-info {
+  text-align: center;
+}
+.team-marquee-author-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #F8FAFC;
+}
+.team-marquee-author-role {
+  font-size: 0.8rem;
+  color: rgba(248, 250, 252, 0.45);
+}
+
 /* ─── Responsive ─── */
 
 @media (max-width: 900px) {
@@ -909,10 +1151,31 @@ select.form-input option {
 }
 @media (max-width: 768px) {
   .service-cards    { grid-template-columns: 1fr; }
-  .team-grid        { grid-template-columns: repeat(2, 1fr); }
   .contact-grid     { grid-template-columns: 1fr; gap: 3rem; }
+  .team-marquee-card { width: 220px; }
+  .team-marquee-img-wrap { height: 300px; }
 }
 @media (max-width: 600px) {
   .video-grid  { grid-template-columns: 1fr; }
   .nav-links   { display: none; }
+  .team-marquee-card { width: 200px; }
+  .team-marquee-img-wrap { height: 260px; }
+  .team-marquee-fade-left,
+  .team-marquee-fade-right { width: 60px; }
 }
+
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+

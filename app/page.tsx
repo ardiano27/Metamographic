@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { Typewriter } from "@/components/ui/typewriter";
+import TeamSection from "@/components/ui/team";
 import {
   Film,
   Layers,
@@ -19,10 +21,9 @@ import {
 } from "lucide-react";
 
 /* ─────────────────────────────────────────
-   LOGO (base64 inline — no external fetch)
+   LOGO — simpan file logo di: public/logo.png
 ───────────────────────────────────────── */
-const LOGO_SRC =
-  "data:image/jpeg;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/9k=";
+const LOGO_SRC = "/logo.png";
 
 /* ─────────────────────────────────────────
    Scroll-reveal hook
@@ -492,9 +493,19 @@ function Philosophy() {
       >
         <div className={`fade-up ${visible ? "visible" : ""}`}>
           <p className="philosophy-quote">
-            "We believe that every pixel should
-            <br />
-            move with intent and rhythm."
+            <Typewriter
+              words={[
+                "Every pixel should move with intent.",
+                "Motion is the language of emotion.",
+                "We craft stories frame by frame.",
+                "Design that breathes and flows.",
+                "Precision meets artistic fluidity.",
+              ]}
+              speed={55}
+              delayBetweenWords={2800}
+              cursor={true}
+              cursorChar="|"
+            />
           </p>
         </div>
         <p
@@ -502,7 +513,7 @@ function Philosophy() {
           style={{ transitionDelay: "0.2s" }}
         >
           METAMOGRAPHIC operates at the nexus of technical precision and
-          artistic fluidity. We don't just edit clips; we architect motion that
+          artistic fluidity. We don't just edit clips, we architect motion that
           commands attention and defines modern digital aesthetic.
         </p>
       </div>
@@ -510,94 +521,7 @@ function Philosophy() {
   );
 }
 
-/* ─────────────────────────────────────────
-   TEAM
-───────────────────────────────────────── */
-type TeamMember = {
-  name: string;
-  role: string;
-  initial: string;
-  grad: string;
-};
-
-const TEAM: TeamMember[] = [
-  { name: "Arlecchino",  role: "Creative Director", initial: "A", grad: "linear-gradient(135deg,#7C3AED,#4C1D95)" },
-  { name: "Mr. Zayn",   role: "Motion Director",   initial: "Z", grad: "linear-gradient(135deg,#0891B2,#164E63)" },
-  { name: "Chatte",     role: "VFX Artist",         initial: "C", grad: "linear-gradient(135deg,#BE185D,#831843)" },
-  { name: "Pid",        role: "3D Designer",        initial: "P", grad: "linear-gradient(135deg,#047857,#064E3B)" },
-  { name: "Raka Adrel", role: "Video Editor",       initial: "R", grad: "linear-gradient(135deg,#B45309,#78350F)" },
-  { name: "Cell's Here",role: "Compositor",         initial: "C", grad: "linear-gradient(135deg,#7C3AED,#0E7490)" },
-];
-
-function Team() {
-  const [ref, visible] = useInView();
-  const [photos, setPhotos] = useState<Record<string, string>>({});
-  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
-
-  const handlePhotoUpload = (name: string, file: File) => {
-    const url = URL.createObjectURL(file);
-    setPhotos((p) => ({ ...p, [name]: url }));
-  };
-
-  return (
-    <section id="team" ref={ref as React.RefObject<HTMLElement>} style={{ paddingBottom: "7rem" }}>
-      <div
-        className={`fade-up ${visible ? "visible" : ""}`}
-        style={{ textAlign: "center", marginBottom: "4rem" }}
-      >
-        <div className="section-label">The Crew</div>
-        <h2 className="section-title">
-          MEET THE <span className="gradient-text">TEAM</span>
-        </h2>
-      </div>
-
-      <div className="team-grid">
-        {TEAM.map((m, i) => (
-          <div
-            key={m.name}
-            className={`team-card fade-up ${visible ? "visible" : ""}`}
-            style={{ transitionDelay: `${i * 0.1}s` }}
-            onClick={() => inputRefs.current[m.name]?.click()}
-          >
-            <input
-              type="file"
-              accept="image/*"
-              ref={(el) => { inputRefs.current[m.name] = el; }}
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handlePhotoUpload(m.name, file);
-              }}
-            />
-            <div className="team-avatar">
-              <div className="team-img-wrap">
-                {photos[m.name] ? (
-                  <img
-                    src={photos[m.name]}
-                    alt={m.name}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    className="team-placeholder"
-                    style={{ background: m.grad }}
-                  >
-                    {m.initial}
-                  </div>
-                )}
-              </div>
-              <div className="team-upload-hint">
-                <Upload size={20} color="rgba(255,255,255,0.8)" />
-              </div>
-            </div>
-            <div className="team-name">{m.name}</div>
-            <div className="team-role">{m.role}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+/* Team section is now imported from @/components/ui/team */
 
 /* ─────────────────────────────────────────
    CONTACT SECTION
@@ -1018,7 +942,7 @@ export default function Page() {
       <Works />
       <Services />
       <Philosophy />
-      <Team />
+      <TeamSection />
       <Contact />
       <Footer />
       {contactModal && (
