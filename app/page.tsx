@@ -1,5 +1,6 @@
 "use client";
 
+import { renderCanvas } from "@/components/ui/canvas";
 import { useState, useEffect, useRef } from "react";
 import { Typewriter } from "@/components/ui/typewriter";
 import TeamSection from "@/components/ui/team";
@@ -100,6 +101,19 @@ function Navbar({
    HERO
 ───────────────────────────────────────── */
 function Hero({ onContact }: { onContact: () => void }) {
+  // ← TAMBAHKAN useEffect ini
+  useEffect(() => {
+    renderCanvas();
+    // Cleanup: stop canvas saat component unmount
+    return () => {
+      const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+      if (canvas) {
+        const ctx = canvas.getContext("2d") as any;
+        if (ctx) ctx.running = false;
+      }
+    };
+  }, []);
+
   return (
     <div className="hero-section" id="hero">
       <div className="orb orb1" />
@@ -127,8 +141,8 @@ function Hero({ onContact }: { onContact: () => void }) {
         </h1>
 
         <p className="hero-body">
-          Elevating brands through high-end motion graphics, kinetic design, and
-          precision video editing. We turn static ideas into fluid cinematic
+          Elevating brands through high-end motion graphics, kinetic design,
+          and precision video editing. We turn static ideas into fluid cinematic
           experiences.
         </p>
 
@@ -136,9 +150,7 @@ function Hero({ onContact }: { onContact: () => void }) {
           <button
             className="btn-primary"
             onClick={() =>
-              document
-                .getElementById("works")
-                ?.scrollIntoView({ behavior: "smooth" })
+              document.getElementById("works")?.scrollIntoView({ behavior: "smooth" })
             }
           >
             View Our Work{" "}
@@ -163,7 +175,6 @@ function Hero({ onContact }: { onContact: () => void }) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "0.5rem",
           opacity: 0.4,
           animation: "float 2s ease-in-out infinite",
         }}
@@ -179,7 +190,6 @@ function Hero({ onContact }: { onContact: () => void }) {
     </div>
   );
 }
-
 /* ─────────────────────────────────────────
    WORKS / PORTFOLIO
 ───────────────────────────────────────── */
@@ -918,7 +928,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
    ROOT PAGE
 ───────────────────────────────────────── */
 export default function Page() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
   const [contactModal, setContactModal] = useState(false);
 
   useEffect(() => {
@@ -937,17 +947,25 @@ export default function Page() {
       }}
     >
       <div className="grain-overlay" />
+
       <Navbar scrolled={scrolled} onContact={() => setContactModal(true)} />
-      <Hero onContact={() => setContactModal(true)} />
+      <Hero   onContact={() => setContactModal(true)} />
       <Works />
       <Services />
       <Philosophy />
       <TeamSection />
       <Contact />
       <Footer />
+
       {contactModal && (
         <ContactModal onClose={() => setContactModal(false)} />
       )}
+
+      {/* ← TAMBAHKAN INI — Canvas cursor trail, full screen fixed */}
+      <canvas
+        id="canvas"
+        aria-hidden="true"
+      />
     </div>
   );
 }
