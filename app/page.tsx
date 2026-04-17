@@ -21,14 +21,14 @@ import {
   Sparkles,
 } from "lucide-react";
 
-/* ─────────────────────────────────────────
-   LOGO — simpan file logo di: public/logo.png
-───────────────────────────────────────── */
+/* 
+   LOGO
+ */
 const LOGO_SRC = "/logo.png";
 
-/* ─────────────────────────────────────────
+/* 
    Scroll-reveal hook
-───────────────────────────────────────── */
+ */
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
