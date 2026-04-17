@@ -4,6 +4,7 @@ import { renderCanvas } from "@/components/ui/canvas";
 import { useState, useEffect, useRef } from "react";
 import { Typewriter } from "@/components/ui/typewriter";
 import TeamSection from "@/components/ui/team";
+import ReactLogo3D from "@/components/ui/ReactLogo3D";
 import {
   Film,
   Layers,
@@ -115,20 +116,25 @@ function Hero({ onContact }: { onContact: () => void }) {
   }, []);
 
   return (
-    <div className="hero-section" id="hero">
-      <div className="orb orb1" />
-      <div className="orb orb2" />
-      <div className="orb orb3" />
+  <div className="hero-section" id="hero">
+    <div className="orb orb1" />
+    <div className="orb orb2" />
+    <div className="orb orb3" />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: 1200,
-          margin: "0 auto",
-          width: "100%",
-        }}
-      >
+    <div
+      style={{
+        position: "relative",
+        zIndex: 1,
+        maxWidth: 1300,
+        margin: "0 auto",
+        width: "100%",
+        display: "flex",          // ← tambah ini
+        alignItems: "center",     // ← tambah ini
+        justifyContent: "space-between", // ← tambah ini
+      }}
+    >
+      {}
+      <div style={{ flex: 1 }}>
         <div className="hero-badge">
           <Sparkles size={12} style={{ color: "#A78BFA" }} />
           ✦ Motion · Design · Experience
@@ -154,10 +160,7 @@ function Hero({ onContact }: { onContact: () => void }) {
             }
           >
             View Our Work{" "}
-            <ArrowRight
-              size={16}
-              style={{ marginLeft: 6, display: "inline", verticalAlign: "middle" }}
-            />
+            <ArrowRight size={16} style={{ marginLeft: 6, display: "inline", verticalAlign: "middle" }} />
           </button>
           <button className="btn-ghost" onClick={onContact}>
             Start a Project
@@ -165,30 +168,37 @@ function Hero({ onContact }: { onContact: () => void }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          opacity: 0.4,
-          animation: "float 2s ease-in-out infinite",
-        }}
-      >
-        <div
-          style={{
-            width: 1,
-            height: 40,
-            background: "linear-gradient(transparent, rgba(139,92,246,0.8))",
-          }}
-        />
+      {/* Kolom kanan — logo React 3D ← TAMBAHAN BARU */}
+      <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+        <ReactLogo3D size={650} />
       </div>
     </div>
-  );
+
+    {/* Scroll indicator — tetap sama */}
+    <div
+      style={{
+        position: "absolute",
+        bottom: "2rem",
+        left: "50%",
+        transform: "translateX(-50%)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        opacity: 0.4,
+        animation: "float 2s ease-in-out infinite",
+      }}
+    >
+      <div
+        style={{
+          width: 1,
+          height: 40,
+          background: "linear-gradient(transparent, rgba(139,92,246,0.8))",
+          borderRadius: 50,
+        }}
+      />
+    </div>
+  </div>
+);
 }
 /* ─────────────────────────────────────────
    WORKS / PORTFOLIO
