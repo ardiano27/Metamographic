@@ -5,6 +5,9 @@ import { useState, useEffect, useRef } from "react";
 import { Typewriter } from "@/components/ui/typewriter";
 import TeamSection from "@/components/ui/team";
 import ReactLogo3D from "@/components/ui/ReactLogo3D";
+import { useRouter, usePathname } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+
 import {
   Film,
   Layers,
@@ -21,6 +24,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
+import { t } from "i18next";
 
 /* ─────────────────────────────────────────
    LOGO — simpan file logo di: public/logo.png
@@ -56,52 +60,63 @@ function useInView(threshold = 0.15) {
 /* ─────────────────────────────────────────
    NAVBAR
 ───────────────────────────────────────── */
-function Navbar({
-  scrolled,
-  onContact,
-}: {
-  scrolled: boolean;
-  onContact: () => void;
-}) {
+function Navbar({ scrolled, onContact }: { scrolled: boolean; onContact: () => void }) {
+  const t = useTranslations('nav'); // ← tambah ini
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const switchLocale = (newLocale: string) => {
+  const newPath = pathname.replace(/^\/(id|en)/, `/${newLocale}`);
+  router.push(newPath);
+};
+
+
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-      <img
-        src={LOGO_SRC}
-        alt="Metamographic"
-        style={{ height: 40, objectFit: "contain", cursor: "pointer" }}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      />
+      <img src={LOGO_SRC} alt="Metamographic" style={{ height: 40, objectFit: "contain", cursor: "pointer" }}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} />
       <ul className="nav-links">
         {(
           [
-            ["Home", "hero"],
-            ["Our Works", "works"],
-            ["Service", "service"],
-            ["About", "philosophy"],
-            ["Contact", "contact"],
+            [t('home'), "hero"],       // ← ganti hardcode jadi t(...)
+            [t('works'), "works"],
+            [t('service'), "service"],
+            [t('about'), "philosophy"],
+            [t('contact'), "contact"],
           ] as [string, string][]
         ).map(([label, id]) => (
           <li key={label}>
-            <a className="nav-link" onClick={() => scrollTo(id)}>
-              {label}
-            </a>
+            <a className="nav-link" onClick={() => scrollTo(id)}>{label}</a>
           </li>
         ))}
       </ul>
-      <button className="cta-btn" onClick={onContact}>
-        Let's Create
-      </button>
+      <button className="cta-btn" onClick={onContact}>Let's Create</button>
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+  <button
+    onClick={() => switchLocale('id')}
+    style={{ opacity: locale === 'id' ? 1 : 0.4, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
+  >
+    🇮🇩
+  </button>
+  <button
+    onClick={() => switchLocale('en')}
+    style={{ opacity: locale === 'en' ? 1 : 0.4, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
+  >
+    🇬🇧
+  </button>
+</div>
     </nav>
   );
 }
-
 /* ─────────────────────────────────────────
    HERO
 ───────────────────────────────────────── */
 function Hero({ onContact }: { onContact: () => void }) {
+  const t = useTranslations('hero'); // ← tambah ini
   // ← TAMBAHKAN useEffect ini
   useEffect(() => {
     renderCanvas();
@@ -137,19 +152,19 @@ function Hero({ onContact }: { onContact: () => void }) {
       <div style={{ flex: 1 }}>
         <div className="hero-badge">
           <Sparkles size={12} style={{ color: "#A78BFA" }} />
-          ✦ Motion · Design · Experience
+          ✦ {t('badge')}
         </div>
 
         <h1 className="hero-title">
-          <span className="hero-t1">WE CRAFT</span>
-          <span className="hero-t2">MOTION</span>
-          <span className="hero-t3">that moves culture.</span>
+           <span className="hero-t1">{t('t1')}</span>   {/* ← ganti */}
+            <span className="hero-t2">{t('t2')}</span>
+            <span className="hero-t3">{t('t3')}</span>
         </h1>
 
-        <p className="hero-body">
-          Elevating brands through high-end motion graphics, kinetic design,
+           <p className="hero-body">{t('body')}
+          {/* Elevating brands through high-end motion graphics, kinetic design,
           and precision video editing. We turn static ideas into fluid cinematic
-          experiences.
+          experiences. */}
         </p>
 
         <div className="hero-btns">
@@ -163,7 +178,7 @@ function Hero({ onContact }: { onContact: () => void }) {
             <ArrowRight size={16} style={{ marginLeft: 6, display: "inline", verticalAlign: "middle" }} />
           </button>
           <button className="btn-ghost" onClick={onContact}>
-            Start a Project
+            {t('btnStart')} 
           </button>
         </div>
       </div>
@@ -211,7 +226,7 @@ type VideoItem = {
 };
 
 const INITIAL_VIDEOS: VideoItem[] = [
-  { id: 1, title: "Neon City Intro", category: "Long Shoot", src: null },
+  { id: 1, title: "Neon City Intro", category: "Long Shoot", src: "https://youtu.be/7d0721P0TsQ?si=dZ6wLAyeo1eFarUp" },
   { id: 2, title: "Brand Identity Reel", category: "Short Shoot", src: null },
   { id: 3, title: "Kinetic Typography Vol.1", category: "Long Shoot", src: null },
   { id: 4, title: "Product Launch VFX", category: "Short Shoot", src: null },
@@ -221,9 +236,11 @@ const INITIAL_VIDEOS: VideoItem[] = [
 
 function Works() {
   const [ref, visible] = useInView();
+  const t = useTranslations('portofolio');
   const [filter, setFilter] = useState<"All" | "Long Shoot" | "Short Shoot">("All");
   const [videos, setVideos] = useState<VideoItem[]>(INITIAL_VIDEOS);
   const [modal, setModal] = useState(false);
+
   const [upload, setUpload] = useState<{
     title: string;
     category: "Long Shoot" | "Short Shoot";
@@ -250,7 +267,7 @@ function Works() {
       <div className={`fade-up ${visible ? "visible" : ""}`}>
         <div className="section-label">Portfolio</div>
         <h2 className="section-title">
-          Our <span className="gradient-text">Works</span>
+         {t('heading1')} <span className="gradient-text">{t('heading2')}</span>
         </h2>
       </div>
 
@@ -362,13 +379,13 @@ function Works() {
                   }))
                 }
               >
-                <option>Long Shoot</option>
-                <option>Short Shoot</option>
+                <option>{t('longshoot')}</option>
+                <option>{t('shortshoot')}</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label className="form-label">Video File</label>
+              <label className="form-label">{t('videofile')}</label>
               <input
                 ref={fileRef}
                 type="file"
@@ -418,25 +435,25 @@ function Works() {
 ───────────────────────────────────────── */
 function Services() {
   const [ref, visible] = useInView();
-
+  const t = useTranslations('services');
   const cards = [
     {
       num: "01",
       icon: <Film size={22} />,
       name: "2D/3D Motion Design",
-      body: "From kinetic typography to complex 3D compositing, we create motion that transcends the ordinary.",
+      body: t('bdy1'),
     },
     {
       num: "02",
       icon: <Layers size={22} />,
       name: "Visual Effects (VFX)",
-      body: "Seamless compositing, particle systems, and real-time rendering that push the boundaries of digital reality.",
+      body: t('bdy2'),
     },
     {
       num: "03",
       icon: <Scissors size={22} />,
       name: "Advanced Video Editing",
-      body: "Precision cuts, color grading, and narrative pacing that transforms raw footage into cinematic gold.",
+      body: t('bdy3'),
     },
   ];
 
@@ -446,9 +463,9 @@ function Services() {
         className={`fade-up ${visible ? "visible" : ""}`}
         style={{ marginBottom: "3rem", textAlign: "center" }}
       >
-        <div className="section-label">What We Do</div>
+        <div className="section-label">{t('label')}</div>
         <h2 className="section-title">
-          OUR <span className="gradient-text">EXPERTISE</span>
+          {t('title')} <span className="gradient-text"> {t('title2')} </span>
         </h2>
         <h3
           style={{
@@ -473,8 +490,7 @@ function Services() {
             lineHeight: 1.7,
           }}
         >
-          We specialize in the intersection of design and movement, creating
-          seamless visual narratives through advanced post-production techniques.
+         {t('text')}
         </p>
       </div>
 
@@ -501,11 +517,13 @@ function Services() {
 ───────────────────────────────────────── */
 function Philosophy() {
   const [ref, visible] = useInView(0.2);
+  const t = useTranslations('philosophy');
+  const words = t.raw('words') as string[];
 
   return (
     <div className="philosophy-wrap section-full" id="philosophy">
       <div className="philosophy-bg" />
-      <div className="philosophy-vert">PHILOSOPHY</div>
+      <div className="philosophy-vert"> {t('philotext')} </div>
 
       <div
         ref={ref as React.RefObject<HTMLDivElement>}
@@ -514,13 +532,7 @@ function Philosophy() {
         <div className={`fade-up ${visible ? "visible" : ""}`}>
           <p className="philosophy-quote">
             <Typewriter
-              words={[
-                "Every pixel should move with intent.",
-                "Motion is the language of emotion.",
-                "We craft stories frame by frame.",
-                "Design that breathes and flows.",
-                "Precision meets artistic fluidity.",
-              ]}
+              words={words}
               speed={55}
               delayBetweenWords={2800}
               cursor={true}
@@ -532,9 +544,7 @@ function Philosophy() {
           className={`philosophy-body fade-up ${visible ? "visible" : ""}`}
           style={{ transitionDelay: "0.2s" }}
         >
-          METAMOGRAPHIC operates at the nexus of technical precision and
-          artistic fluidity. We don't just edit clips, we architect motion that
-          commands attention and defines modern digital aesthetic.
+          {t('t1')}
         </p>
       </div>
     </div>
@@ -553,6 +563,7 @@ function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", service: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const t = useTranslations('contact');
 
   const update = (k: keyof FormState, v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -568,14 +579,14 @@ function Contact() {
       <div className="contact-grid" ref={ref as React.RefObject<HTMLDivElement>}>
         {/* Left — info */}
         <div className={`fade-up ${visible ? "visible" : ""}`}>
-          <div className="section-label">Get In Touch</div>
+          <div className="section-label"> {t('label')} </div>
           <h2
             className="section-title"
             style={{ fontSize: "clamp(40px,6vw,72px)" }}
           >
-            LET'S BUILD
+            {t('section-title')}
             <br />
-            <span className="gradient-text">SOMETHING EPIC.</span>
+            <span className="gradient-text"> {t('something-epic')} </span>
           </h2>
 
           <div className="contact-info-item">
@@ -584,7 +595,7 @@ function Contact() {
           </div>
           <div className="contact-info-item">
             <div className="contact-icon"><MapPin size={18} /></div>
-            <span>East Java, Indonesia</span>
+            <span>{t('loc')}</span>
           </div>
           <div className="contact-info-item">
             <div className="contact-icon"><Phone size={18} /></div>
@@ -639,10 +650,10 @@ function Contact() {
                     marginBottom: "0.5rem",
                   }}
                 >
-                  Message Sent!
+                  {t('message-sent')}
                 </h3>
                 <p style={{ color: "rgba(248,250,252,0.5)" }}>
-                  We'll get back to you within 24 hours.
+                  {t('notif')}
                 </p>
               </div>
             ) : (
@@ -655,7 +666,7 @@ function Contact() {
                   }}
                 >
                   <div className="form-group">
-                    <label className="form-label">Name</label>
+                    <label className="form-label">{t('form-label-name')}</label>
                     <input
                       className="form-input"
                       placeholder="Your name"
@@ -676,13 +687,13 @@ function Contact() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Service</label>
+                  <label className="form-label">{t('service')}</label>
                   <select
                     className="form-input"
                     value={form.service}
                     onChange={(e) => update("service", e.target.value)}
                   >
-                    <option value="">Select a service...</option>
+                    <option value="">{t('service-selection')}</option>
                     <option>2D/3D Motion Design</option>
                     <option>Visual Effects (VFX)</option>
                     <option>Advanced Video Editing</option>
@@ -691,7 +702,7 @@ function Contact() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Message</label>
+                  <label className="form-label">{t('messages')}</label>
                   <textarea
                     className="form-input"
                     placeholder="Tell us about your project..."

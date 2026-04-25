@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "Home",
+    "works": "Our Works",
+    "service": "Service",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Motion · Design · Experience",
+    "t1": "WE CRAFT",
+    "t2": "MOTION",
+    "t3": "that moves culture.",
+    "body": "Elevating brands through high-end motion graphics, kinetic design, and precision video editing. We turn static ideas into fluid cinematic experiences",
+    "btnWork": "View Our Work",
+    "btnStart": "Start a Project"
+  },
+  "portofolio" : {
+    "heading1" : "Our",
+    "heading2" : "Works",
+    "shortshoot" : "Short Shoot",
+    "longshoot" : "Long Shoot",
+    "videofile" : "Video File"
+  },
+   "services" : {
+    "bdy1" : "From kinetic typography to complex 3D compositing, we create motion that transcends the ordinary.",
+    "bdy2" : "Seamless compositing, particle systems, and real-time rendering that push the boundaries of digital reality.",
+    "bdy3" : "Precision cuts, color grading, and narrative pacing that transforms raw footage into cinematic gold.",
+    "label" : "What We Do",
+    "title" : "Our",
+    "title2" : "Expertise",
+    "text" : "We specialize in the intersection of design and movement, creating seamless visual narratives through advanced post-production techniques."
+},
+"philosophy" : {
+  "philotext" : "PHILOSOPHY",
+  "words": [
+      "Every pixel should move with intent.",
+      "Motion is the language of emotion.",
+      "We craft stories frame by frame.",
+      "Design that breathes and flows.",
+      "Precision meets artistic fluidity."
+  ],
+  "t1" : "METAMOGRAPHIC operates at the nexus of technical precision and artistic fluidity. We don't just edit clips, we architect motion that commands attention and defines modern digital aesthetic."
+},
+"contact" : {
+  "label" : "Get In Touch",
+  "section-title" : "LET'S BUILD",
+  "something-epic" : "SOMETHING EPIC",
+  "loc" : "East Java, Indonesia",
+  "message-sent" : "MESSAGES SENT!",
+  "notif" : "We'll get back to you within 24 hours.",
+  "form-label-name" : "Name",
+  "service" : "Service",
+  "service-selection" : "Select a Service...",
+  "messages" : "Message"
+},
+"team" : {
+  "marquee-title" : "Meet The",
+  "marquee-title2" : "Team",
+  "team-marquee-subtitle" : "The creative minds behind METAMOGRAPHIC — crafting motion, design, and cinematic experiences together."
+}
+}

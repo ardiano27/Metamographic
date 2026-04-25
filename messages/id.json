@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "works": "Karya Kami",
+    "service": "Layanan",
+    "about": "Tentang",
+    "contact": "Kontak"
+  },
+  "hero": {
+    "badge": "Gerak · Desain · Pengalaman",
+    "t1": "KAMI MEMBUAT",
+    "t2": "MOTION",
+    "t3": "yang menggerakkan budaya.",
+    "body": "Meningkatkan brand melalui motion graphics berkelas, kinetic design, dan video editing presisi, Kami mengubah ide statis menjadi pengalaman sinematik yang mengalir.",
+    "btnWork": "Lihat Karya Kami",
+    "btnStart": "Mulai Proyek"
+  },
+  "portofolio" : {
+    "heading1" : "Karya",
+    "heading2" : "Kami",
+    "shortshoot" : "Video Pendek",
+    "longshoot" : "Video Panjang",
+    "videofile" : "File Video"
+  },
+  "services" : {
+    "bdy1" : "Dari tipografi kinetik hingga compositing 3D yang kompleks, kami menciptakan motion yang melampaui hal biasa.",
+    "bdy2" : "Compositing yang mulus, sistem partikel, dan rendering real-time yang mendorong batas realitas digital.",
+    "bdy3" : "Potongan presisi, color grading, dan pengaturan ritme narasi yang mengubah footage mentah menjadi karya sinematik bernilai tinggi.",
+    "label" : "Tugas Kami",
+    "title" : "Keahlian",
+    "title2" : "Kami",
+    "text" : "Kami berspesialisasi pada persimpangan antara desain dan gerakan, menciptakan narasi visual yang mulus melalui teknik post-production yang canggih."
+  },
+  "philosophy" : {
+    "philotext" : "Filosofi",
+    "words": [
+      "Setiap piksel harus bergerak dengan tujuan.",
+      "Gerak adalah bahasa emosi.",
+      "Kami merangkai cerita frame per frame.",
+      "Desain yang bernafas dan mengalir.",
+      "Presisi bertemu fluiditas artistik."
+    ],
+    "t1" : "**METAMOGRAPHIC** beroperasi di titik pertemuan antara presisi teknis dan keluwesan artistik. Kami tidak sekadar mengedit klip, kami merancang motion yang mampu menarik perhatian dan mendefinisikan estetika digital modern."
+  },
+  "contact" : {
+    "label" : "Hubungi Kami",
+    "section-title" : "Mari Membangun",
+    "something-epic" : "Sesuatu Yang Epic",
+    "loc" : "Jawa Barat, Indonesia",
+    "message-sent" : "Pesan Terkirim!",
+    "notif" : "Kami akan menghubungi Anda kembali dalam waktu 24 jam.",
+    "form-label-name" : "Nama",
+    "service" : "Layanan",
+    "service-selection" : "Pilih Layanan...",
+    "messages" : "Pesan"
+  },
+  "team" : {
+    "marquee-title" : "Kenali Tim",
+    "marquee-title2" : "Kami",
+    "team-marquee-subtitle" : "Pikiran-pikiran kreatif di balik METAMOGRAPHIC — bersama-sama menciptakan motion, desain, dan pengalaman sinematik."
+  }
+}

@@ -2,54 +2,58 @@
 
 import Image from "next/image";
 import { UserCheck } from "lucide-react";
-
-import { Marquee } from "@/components/ui/marquee";
+import { useTranslations, useLocale } from 'next-intl';
+import { Marquee, MarqueeCard } from "@/components/ui/marquee"; // tambah MarqueeCard
 
 const teamMembers = [
   {
-    image:
-      "/no.jpeg",
+    image: "/no.jpeg",
     name: "Arlecchino",
     role: "Creative Director",
+    instagram: "arlecchino",   // ganti dengan username asli
+    linkedin: "arlecchino",    // ganti dengan username asli
   },
   {
-    image:
-      "/chatte.jpg",
+    image: "/chatte.jpg",
     name: "Usamah Hasanz",
     role: "Motion Director",
+    instagram: "usamahhasanz",
+    linkedin: "usamahhasanz",
   },
   {
-    image:
-      "/suf.jpg",
+    image: "/suf.jpg",
     name: "Yusuf izzat",
     role: "VFX Artist",
+    instagram: "yusufizzat",
+    linkedin: "yusufizzat",
   },
   {
-    image:
-      "/pid.jpg",
+    image: "/pid.jpg",
     name: "Roofid Rizqu",
     role: "3D Designer",
+    instagram: "roofidrizqu",
+    linkedin: "roofidrizqu",
   },
   {
-    image:
-      "/raka.jpg",
+    image: "/raka.jpg",
     name: "Raka Adrel",
     role: "Video Editor",
+    instagram: "raka.adrel",
+    linkedin: "raka-adrel",
   },
   {
-    image:
-      "/acel.jpg",
+    image: "/acel.jpg",
     name: "Marcelino",
     role: "Compositor",
+    instagram: "marcelino",
+    linkedin: "marcelino",
   },
 ];
 
 export default function TeamSection() {
+  const t = useTranslations('team');
   return (
-    <section
-      id="team"
-      className="team-marquee-section"
-    >
+    <section id="team" className="team-marquee-section">
       {/* Decorative SVG */}
       <div>
         <svg
@@ -83,10 +87,9 @@ export default function TeamSection() {
           <div className="team-marquee-icon">
             <UserCheck size={24} />
           </div>
-
           <h2 className="team-marquee-title">
-            Meet The{" "}
-            <span className="gradient-text">Team</span>
+            {t('marquee-title')}{" "}
+            <span className="gradient-text"> {t('marquee-title2')} </span>
             <svg
               className="team-marquee-title-deco"
               fill="currentColor"
@@ -105,8 +108,7 @@ export default function TeamSection() {
             </svg>
           </h2>
           <p className="team-marquee-subtitle">
-            The creative minds behind METAMOGRAPHIC — crafting motion, design,
-            and cinematic experiences together.
+            {t('team-marquee-subtitle')}
           </p>
         </div>
 
@@ -117,27 +119,32 @@ export default function TeamSection() {
 
           <Marquee className="[--gap:1.5rem]" pauseOnHover>
             {teamMembers.map((member) => (
-              <div
-                className="team-marquee-card"
+              // Bungkus card dengan MarqueeCard, tambah socialLinks & personName
+              <MarqueeCard
                 key={member.name}
+                personName={member.name}
+                 personRole={member.role}    // ← tambah
+                 personImage={member.image}
+                socialLinks={{
+                  instagram: member.instagram,
+                  linkedin: member.linkedin,
+                }}
               >
-                <div className="team-marquee-img-wrap">
-                  <Image
-                    alt={member.name}
-                    className="team-marquee-img"
-                    fill
-                    src={member.image}
-                  />
-                  <div className="team-marquee-label">
-                    <h3 className="team-marquee-name">
-                      {member.name}
-                    </h3>
-                    <p className="team-marquee-role">
-                      {member.role}
-                    </p>
+                <div className="team-marquee-card">
+                  <div className="team-marquee-img-wrap">
+                    <Image
+                      alt={member.name}
+                      className="team-marquee-img"
+                      fill
+                      src={member.image}
+                    />
+                    <div className="team-marquee-label">
+                      <h3 className="team-marquee-name">{member.name}</h3>
+                      <p className="team-marquee-role">{member.role}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </MarqueeCard>
             ))}
           </Marquee>
         </div>
