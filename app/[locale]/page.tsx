@@ -143,9 +143,9 @@ function Hero({ onContact }: { onContact: () => void }) {
         maxWidth: 1300,
         margin: "0 auto",
         width: "100%",
-        display: "flex",          // ← tambah ini
-        alignItems: "center",     // ← tambah ini
-        justifyContent: "space-between", // ← tambah ini
+        display: "flex",          
+        alignItems: "center",     
+        justifyContent: "space-between", 
       }}
     >
       {}
@@ -174,7 +174,7 @@ function Hero({ onContact }: { onContact: () => void }) {
               document.getElementById("works")?.scrollIntoView({ behavior: "smooth" })
             }
           >
-            View Our Work{" "}
+            {t('btnWork')}{" "}
             <ArrowRight size={16} style={{ marginLeft: 6, display: "inline", verticalAlign: "middle" }} />
           </button>
           <button className="btn-ghost" onClick={onContact}>
@@ -226,7 +226,7 @@ type VideoItem = {
 };
 
 const INITIAL_VIDEOS: VideoItem[] = [
-  { id: 1, title: "Neon City Intro", category: "Long Shoot", src: "https://youtu.be/7d0721P0TsQ?si=dZ6wLAyeo1eFarUp" },
+  { id: 1, title: "Neon City Intro", category: "Long Shoot", src: null },
   { id: 2, title: "Brand Identity Reel", category: "Short Shoot", src: null },
   { id: 3, title: "Kinetic Typography Vol.1", category: "Long Shoot", src: null },
   { id: 4, title: "Product Launch VFX", category: "Short Shoot", src: null },
@@ -951,6 +951,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 export default function Page() {
   const [scrolled, setScrolled]       = useState(false);
   const [contactModal, setContactModal] = useState(false);
+  const t = useTranslations('footer');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
