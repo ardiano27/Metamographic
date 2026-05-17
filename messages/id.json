@@ -52,7 +52,8 @@
     "form-label-name" : "Nama",
     "service" : "Layanan",
     "service-selection" : "Pilih Layanan...",
-    "messages" : "Pesan"
+    "messages" : "Pesan",
+    "Name" : "Nama"
   },
   "team" : {
     "marquee-title" : "Kenali Tim",

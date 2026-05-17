@@ -94,19 +94,19 @@ function Navbar({ scrolled, onContact }: { scrolled: boolean; onContact: () => v
           </li>
         ))}
       </ul>
-      <button className="cta-btn" onClick={onContact}>Let's Create</button>
+      {/* <button className="cta-btn" onClick={onContact}>Let's Create</button> */}
       <div style={{ display: 'flex', gap: '0.5rem' }}>
   <button
     onClick={() => switchLocale('id')}
-    style={{ opacity: locale === 'id' ? 1 : 0.4, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
+    style={{ opacity: locale === 'id' ? 1 : 2, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
   >
-    🇮🇩
+    ID
   </button>
   <button
     onClick={() => switchLocale('en')}
-    style={{ opacity: locale === 'en' ? 1 : 0.4, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
+    style={{ opacity: locale === 'en' ? 1 : 2, background: 'none', border: 'none', color: '#F8FAFC', cursor: 'pointer', fontWeight: 700 }}
   >
-    🇬🇧
+    EN
   </button>
 </div>
     </nav>
@@ -810,6 +810,8 @@ function ContactModal({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState<FormState>({ name: "", email: "", service: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const t = useTranslations('contact');
+  
 
   const update = (k: keyof FormState, v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -871,7 +873,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                 }}
               >
                 <div className="form-group">
-                  <label className="form-label">Name</label>
+                  <label className="form-label">{t('Name')}</label>
                   <input
                     className="form-input"
                     placeholder="Your name"

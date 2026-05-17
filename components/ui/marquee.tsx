@@ -102,7 +102,7 @@ function SocialPopup({
               className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]
                          px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 active:scale-[0.98]"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                 <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5"/>
                 <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="1.5"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
@@ -119,8 +119,8 @@ function SocialPopup({
               className="flex items-center gap-3 rounded-xl bg-[#0077b5] px-4 py-3 text-sm font-medium
                          text-white transition hover:bg-[#006399] active:scale-[0.98]"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="3" stroke="white" strokeWidth="1.5"/>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5"/>
                 <path d="M7 10v7M7 7v.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
                 <path d="M11 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
                 <path d="M11 10v7" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
