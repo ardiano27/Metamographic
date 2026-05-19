@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ClientCursor from "@/components/ui/ClientCursor";
 
 export const metadata: Metadata = {
   title: "METAMOGRAPHIC — Motion · Design · Experience",
@@ -21,8 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <ClientCursor />
+        {children}
+      </body>
     </html>
   );
 }
