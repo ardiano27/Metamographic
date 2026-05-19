@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import Image from "next/image";
 import { UserCheck, X, ArrowRight } from "lucide-react";
-import { Marquee } from "@/components/ui/marquee";
 
 // Custom Brand Icons as SVGs for maximum compatibility and beauty
 const InstagramIcon = ({ className }: { className?: string }) => (
@@ -87,8 +87,93 @@ const teamMembers = [
   },
 ];
 
+type TeamMember = (typeof teamMembers)[number];
+
+const TEAM_AUTO_SPEED = -0.035;
+const TEAM_DRAG_SENSITIVITY = 0.13;
+const TEAM_VELOCITY_SENSITIVITY = 0.075;
+
 export default function TeamSection() {
-  const [selectedMember, setSelectedMember] = useState<(typeof teamMembers)[0] | null>(null);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const interactionRef = useRef({
+    dragged: false,
+    dragging: false,
+    lastX: 0,
+    pointerId: -1,
+    rotation: -14,
+    startX: 0,
+    velocity: TEAM_AUTO_SPEED,
+  });
+
+  useEffect(() => {
+    let frameId = 0;
+    const interaction = interactionRef.current;
+
+    const spin = () => {
+      if (!interaction.dragging) {
+        interaction.rotation += interaction.velocity;
+        interaction.velocity =
+          interaction.velocity * 0.965 + TEAM_AUTO_SPEED * 0.035;
+      }
+
+      ringRef.current?.style.setProperty(
+        "--team-rotation",
+        `${interaction.rotation}deg`,
+      );
+      frameId = window.requestAnimationFrame(spin);
+    };
+
+    spin();
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const interaction = interactionRef.current;
+    interaction.dragged = false;
+    interaction.dragging = true;
+    interaction.lastX = event.clientX;
+    interaction.pointerId = event.pointerId;
+    interaction.startX = event.clientX;
+    interaction.velocity = 0;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const interaction = interactionRef.current;
+    if (!interaction.dragging || interaction.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - interaction.lastX;
+    interaction.lastX = event.clientX;
+    interaction.rotation += deltaX * TEAM_DRAG_SENSITIVITY;
+    interaction.velocity = deltaX * TEAM_VELOCITY_SENSITIVITY;
+    interaction.dragged =
+      interaction.dragged || Math.abs(event.clientX - interaction.startX) > 6;
+  };
+
+  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const interaction = interactionRef.current;
+    if (interaction.pointerId !== event.pointerId) return;
+
+    interaction.dragging = false;
+    interaction.pointerId = -1;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const handleCardClick = (member: TeamMember) => {
+    if (interactionRef.current.dragged) {
+      interactionRef.current.dragged = false;
+      return;
+    }
+
+    setSelectedMember(member);
+  };
 
   return (
     <section id="team" className="team-marquee-section">
@@ -146,43 +231,65 @@ export default function TeamSection() {
             </svg>
           </h2>
           <p className="team-marquee-subtitle">
-            The creative minds behind METAMOGRAPHIC — crafting motion, design,
+            The creative minds behind METAMOGRAPHIC - crafting motion, design,
             and cinematic experiences together.
           </p>
         </div>
 
-        {/* Marquee */}
-        <div className="team-marquee-track">
+        <div
+          className="team-marquee-track"
+          onPointerCancel={handlePointerUp}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+        >
           <div className="team-marquee-fade-left" />
           <div className="team-marquee-fade-right" />
 
-          <Marquee className="[--gap:1.5rem]" pauseOnHover>
-            {teamMembers.map((member) => (
-              <div
-                className="team-marquee-card group cursor-pointer"
-                key={member.name}
-                onClick={() => setSelectedMember(member)}
-              >
-                <div className="team-marquee-img-wrap relative">
-                  <Image
-                    alt={member.name}
-                    className="team-marquee-img transition-transform duration-500 group-hover:scale-110"
-                    fill
-                    src={member.image}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                     <div className="flex items-center gap-2 text-white text-sm font-medium">
-                        View Profile <ArrowRight size={14} />
-                     </div>
+          <div className="team-carousel-stage">
+            <div
+              className="team-carousel-ring"
+              ref={ringRef}
+              style={
+                {
+                  "--team-rotation": "-14deg",
+                } as CSSProperties
+              }
+            >
+              {teamMembers.map((member, index) => (
+                <button
+                  className="team-marquee-card"
+                  key={member.name}
+                  onClick={() => handleCardClick(member)}
+                  style={
+                    {
+                      "--team-angle": `${(360 / teamMembers.length) * index}deg`,
+                    } as CSSProperties
+                  }
+                  type="button"
+                >
+                  <div className="team-marquee-img-wrap">
+                    <Image
+                      alt={member.name}
+                      className="team-marquee-img"
+                      fill
+                      sizes="(max-width: 640px) 62vw, (max-width: 1024px) 38vw, 330px"
+                      src={member.image}
+                    />
+                    <div className="team-card-shade" />
+                    <div className="team-profile-hover">
+                      <span>See full profile</span>
+                      <ArrowRight size={15} />
+                    </div>
+                    <div className="team-marquee-label">
+                      <h3 className="team-marquee-name">{member.name}</h3>
+                      <p className="team-marquee-role">{member.role}</p>
+                    </div>
                   </div>
-                  <div className="team-marquee-label">
-                    <h3 className="team-marquee-name">{member.name}</h3>
-                    <p className="team-marquee-role">{member.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Marquee>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -230,7 +337,7 @@ export default function TeamSection() {
               <div className="mb-8">
                 <h4 className="text-white/30 text-xs font-bold tracking-widest uppercase mb-4">Biography</h4>
                 <p className="text-white/70 text-lg leading-relaxed font-light italic">
-                  "{selectedMember.description}"
+                  &ldquo;{selectedMember.description}&rdquo;
                 </p>
               </div>
 
@@ -259,9 +366,6 @@ export default function TeamSection() {
                    </div>
                  </div>
               </div>
-
-              {/* Decorative background element */}
-              <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
             </div>
           </div>
         </div>
