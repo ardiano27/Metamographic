@@ -115,9 +115,8 @@ function Bar({ def, isExploded }: BarProps) {
   }, []);
 
   return (
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     <animated.mesh
-      position={animPos as any}
+      position={animPos}
       scale={scale}
       rotation={[0, 0, TILT_Z]}
       onPointerOver={onOver}
@@ -252,7 +251,7 @@ export default function MetamographicLogo3D() {
           <Scene mouseX={mouse.x} mouseY={mouse.y} />
 
           {/* Bloom gives the glass bars their premium glow */}
-          <EffectComposer disableNormalPass>
+          <EffectComposer>
             <Bloom
               luminanceThreshold={0.2}
               luminanceSmoothing={0.9}

@@ -10,10 +10,23 @@ export default function ClientCursor() {
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
-    // Sembunyikan cursor default di seluruh halaman
-    document.body.style.cursor = "none";
+    const canUseCustomCursor = window.matchMedia("(pointer: fine)").matches;
+    if (!canUseCustomCursor) return;
+
+    const enableCustomCursor = () => {
+      document.body.classList.add("custom-cursor-active");
+      setIsVisible(true);
+    };
+
+    const disableCustomCursor = () => {
+      document.body.classList.remove("custom-cursor-active");
+      setIsVisible(false);
+      setIsHovered(false);
+      setIsClicking(false);
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
+      enableCustomCursor();
       if (!cursorRef.current || !cursorFollowerRef.current) return;
 
       // Cursor utama (lingkaran kecil) bergerak langsung
@@ -26,9 +39,6 @@ export default function ClientCursor() {
         }
       }, 30);
     };
-
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
@@ -55,24 +65,22 @@ export default function ClientCursor() {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    document.body.addEventListener("mouseenter", handleMouseEnter);
-    document.body.addEventListener("mouseleave", handleMouseLeave);
+    document.body.addEventListener("mouseenter", enableCustomCursor);
+    document.body.addEventListener("mouseleave", disableCustomCursor);
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
-      document.body.style.cursor = "";
+      document.body.classList.remove("custom-cursor-active");
       window.removeEventListener("mousemove", handleMouseMove);
-      document.body.removeEventListener("mouseenter", handleMouseEnter);
-      document.body.removeEventListener("mouseleave", handleMouseLeave);
+      document.body.removeEventListener("mouseenter", enableCustomCursor);
+      document.body.removeEventListener("mouseleave", disableCustomCursor);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("mouseover", handleMouseOver);
     };
   }, []);
-
-  if (!isVisible) return null;
 
   return (
     <>

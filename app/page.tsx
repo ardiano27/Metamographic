@@ -14,9 +14,7 @@ import {
   MapPin,
   Phone,
   Play,
-  Plus,
   X,
-  Upload,
   CheckCircle,
   ArrowRight,
   Sparkles,
@@ -115,7 +113,7 @@ function Navbar({
         ))}
       </ul>
       <button className="cta-btn" onClick={onContact}>
-        Let's Create
+        Let&apos;s Create
       </button>
     </nav>
   );
@@ -294,6 +292,7 @@ function Works() {
 
   return (
     <section
+      className="works-section"
       id="works"
       ref={ref as React.RefObject<HTMLElement>}
       style={{ paddingTop: "7rem" }}
@@ -518,7 +517,7 @@ function Philosophy() {
           style={{ transitionDelay: "0.2s" }}
         >
           METAMOGRAPHIC operates at the nexus of technical precision and
-          artistic fluidity. We don't just edit clips, we architect motion that
+          artistic fluidity. We don&apos;t just edit clips, we architect motion that
           commands attention and defines modern digital aesthetic.
         </p>
       </div>
@@ -561,7 +560,7 @@ function Contact() {
             className="section-title"
             style={{ fontSize: "clamp(40px,6vw,72px)" }}
           >
-            LET'S BUILD
+            LET&apos;S BUILD
             <br />
             <span className="gradient-text">SOMETHING EPIC.</span>
           </h2>
@@ -661,7 +660,7 @@ function Contact() {
                   Message Sent!
                 </h3>
                 <p style={{ color: "rgba(248,250,252,0.5)" }}>
-                  We'll get back to you within 24 hours.
+                  We&apos;ll get back to you within 24 hours.
                 </p>
               </div>
             ) : (

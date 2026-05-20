@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Syne:wght@700;800&family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Syne:wght@700;800&family=Pinyon+Script&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -23,6 +23,7 @@
   --font-body: 'Inter', sans-serif;
   --font-serif: 'Instrument Serif', serif;
   --font-accent: 'Syne', sans-serif;
+  --font-script: 'Caveat', cursive;
 }
 
 html {
@@ -1092,7 +1093,7 @@ select.form-input option {
     translateZ(var(--team-radius));
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  cursor: none;
+  cursor: pointer;
 }
 .team-marquee-img-wrap {
   position: relative;
@@ -1202,7 +1203,7 @@ select.form-input option {
 .profile-modal-shell {
   position: fixed;
   inset: 0;
-  z-index: 3000;
+  z-index: 99998;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1234,7 +1235,35 @@ select.form-input option {
   animation: profileResumeIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   font-family: "Courier New", Courier, monospace;
 }
+.profile-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.profile-stars span {
+  position: absolute;
+  color: rgba(23, 23, 23, 0.16);
+  font-size: 1.5rem;
+}
+.profile-stars span:nth-child(1) {
+  top: 2.4rem;
+  right: 7rem;
+  transform: rotate(12deg);
+}
+.profile-stars span:nth-child(2) {
+  right: 2.4rem;
+  bottom: 4.2rem;
+  transform: rotate(-8deg);
+}
+.profile-stars span:nth-child(3) {
+  left: 5.6rem;
+  bottom: 2.2rem;
+  transform: rotate(18deg);
+}
 .profile-resume-scroll {
+  position: relative;
+  z-index: 1;
   max-height: min(88vh, 920px);
   overflow-y: auto;
   padding: clamp(2rem, 4vw, 3rem) clamp(1.35rem, 3vw, 2.75rem)
@@ -1307,19 +1336,20 @@ select.form-input option {
 .profile-header h2 {
   max-width: 100%;
   margin: 0 3.4rem 0.7rem 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-script);
   font-size: clamp(2.35rem, 5vw, 4.2rem);
   font-weight: 700;
   line-height: 0.96;
 }
 .profile-header mark,
-.profile-project mark {
-  display: inline;
+.profile-about-text mark {
+  display: inline-block;
   padding: 0 0.15em;
   background: #fcee54;
   color: inherit;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+  transform: rotate(-1deg);
 }
 .profile-header p,
 .profile-section h3 {
@@ -1358,7 +1388,8 @@ select.form-input option {
   border-top: 1.5px dashed rgba(23, 23, 23, 0.45);
   border-bottom: 1.5px dashed rgba(23, 23, 23, 0.45);
 }
-.profile-contact-strip span {
+.profile-contact-strip span,
+.profile-contact-strip a {
   min-width: 0;
   display: flex;
   align-items: center;
@@ -1366,7 +1397,15 @@ select.form-input option {
   color: #242424;
   font-size: 0.75rem;
   font-weight: 800;
+  text-decoration: none;
   overflow-wrap: anywhere;
+}
+.profile-contact-strip a:hover,
+.profile-contact-strip a:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: #fcee54;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 2px;
 }
 .profile-contact-icon {
   width: 15px;
@@ -1389,6 +1428,7 @@ select.form-input option {
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
+  list-style: none;
 }
 .profile-bullet-row > span,
 .profile-skill-list span {
@@ -1442,6 +1482,17 @@ select.form-input option {
   filter: drop-shadow(0 5px 3px rgba(0, 0, 0, 0.32));
   transform: translateX(-50%) rotate(7deg);
 }
+.profile-star-pin span {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #b8b8b8;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ffffff, #d9d9d9);
+  color: #9b9b9b;
+  font-size: 1.45rem;
+}
 .profile-skill-list {
   list-style: none;
 }
@@ -1472,6 +1523,32 @@ select.form-input option {
   font-size: 1.08rem;
   font-weight: 900;
   box-shadow: inset 0 -4px 0 rgba(255, 255, 255, 0.08);
+}
+.profile-language-list {
+  width: 100%;
+  display: grid;
+  gap: 0.75rem;
+}
+.profile-language-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  color: #242424;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.profile-language-row div {
+  height: 12px;
+  padding: 1px;
+  border: 1.5px solid #171717;
+  border-radius: 999px;
+}
+.profile-language-row i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #050505;
 }
 
 @keyframes profileResumeIn {
