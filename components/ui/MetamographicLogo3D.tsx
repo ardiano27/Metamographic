@@ -218,6 +218,11 @@ export default function MetamographicLogo3D() {
         width: "min(400px, 100%)",
         height: "clamp(220px, 30vw, 340px)",
         flexShrink: 0,
+        background: "transparent",
+        WebkitMaskImage:
+          "radial-gradient(ellipse 76% 70% at 50% 50%, #000 64%, rgba(0,0,0,0.72) 82%, transparent 100%)",
+        maskImage:
+          "radial-gradient(ellipse 76% 70% at 50% 50%, #000 64%, rgba(0,0,0,0.72) 82%, transparent 100%)",
         /* Subtle glow halo that matches the orb aesthetic */
         filter: "drop-shadow(0 0 40px rgba(139,92,246,0.18))",
       }}
@@ -226,6 +231,12 @@ export default function MetamographicLogo3D() {
     >
       <Canvas
         camera={{ position: [0, 0, 5.6], fov: 37 }}
+        gl={{ alpha: true, premultipliedAlpha: false, antialias: true }}
+        onCreated={({ gl, scene }) => {
+          gl.setClearColor(0x000000, 0);
+          gl.setClearAlpha(0);
+          scene.background = null;
+        }}
         style={{ background: "transparent" }}
         /* Cap at 2× DPR to avoid over-rendering on Retina displays */
         dpr={[1, 2]}
