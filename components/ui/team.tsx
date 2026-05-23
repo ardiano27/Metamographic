@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { UserCheck } from "lucide-react";
 import { useTranslations, useLocale } from 'next-intl';
-import { Marquee, MarqueeCard } from "@/components/ui/marquee"; // tambah MarqueeCard
+import { Marquee, MarqueeCard } from "@/components/ui/marquee1"; // tambah MarqueeCard
 
 const teamMembers = [
   {
