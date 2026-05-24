@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Faq from "@/components/ui/faq";
 import { Typewriter } from "@/components/ui/typewriter";
-
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter, usePathname } from 'next/navigation';
 import TeamSection from "@/components/ui/team";
 import {
   Film,
@@ -84,6 +85,14 @@ function Navbar({
   scrolled: boolean;
   onContact: () => void;
 }) {
+  const t = useTranslations('nav'); // ← tambah ini
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const switchLocale = (newLocale: string) => {
+  const newPath = pathname.replace(/^\/(id|en)/, `/${newLocale}`);
+  router.push(newPath);
+};
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
@@ -98,11 +107,11 @@ function Navbar({
       <ul className="nav-links">
         {(
           [
-            ["Home", "hero"],
-            ["Our Works", "works"],
-            ["Service", "service"],
-            ["About", "philosophy"],
-            ["Contact", "contact"],
+            [t('home'), "hero"],       // ← ganti hardcode jadi t(...)
+            [t('works'), "works"],
+            [t('service'), "service"],
+            [t('about'), "philosophy"],
+            [t('contact'), "contact"],
           ] as [string, string][]
         ).map(([label, id]) => (
           <li key={label}>
@@ -112,6 +121,20 @@ function Navbar({
           </li>
         ))}
       </ul>
+     <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+  <button
+    onClick={() => switchLocale('id')}
+    style={{ opacity: locale === 'id' ? 1 : 0.4, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+  >
+    <img src="https://flagcdn.com/w40/id.png" alt="ID" width={28} height={20} style={{ display: 'block', borderRadius: 3 }} />
+  </button>
+  <button
+    onClick={() => switchLocale('en')}
+    style={{ opacity: locale === 'en' ? 1 : 0.4, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+  >
+    <img src="https://flagcdn.com/w40/us.png" alt="EN" width={28} height={20} style={{ display: 'block', borderRadius: 3 }} />
+  </button>
+</div>
       <button className="cta-btn" onClick={onContact}>
         Let&apos;s Create
       </button>
@@ -120,6 +143,7 @@ function Navbar({
 }
 
 function Hero({ onContact }: { onContact: () => void }) {
+  const t = useTranslations('hero');
   return (
     <div className="hero-section" id="hero">
       <div className="orb orb1" />
@@ -143,7 +167,7 @@ function Hero({ onContact }: { onContact: () => void }) {
         <div style={{ flex: "1 1 340px", minWidth: 0 }}>
           <div className="hero-badge">
             <Sparkles size={12} style={{ color: "#A78BFA" }} />
-            ✦ Motion · Design · Experience
+            ✦ {t('badge')}
           </div>
 
           <h1 className="hero-title">
@@ -153,9 +177,7 @@ function Hero({ onContact }: { onContact: () => void }) {
           </h1>
 
           <p className="hero-body">
-            Elevating brands through high-end motion graphics, kinetic design,
-            and precision video editing. We turn static ideas into fluid
-            cinematic experiences.
+           {t('body')}
           </p>
 
           <div className="hero-btns">
@@ -167,7 +189,7 @@ function Hero({ onContact }: { onContact: () => void }) {
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >
-              View Our Work{" "}
+               {t('btnWork')}{" "}
               <ArrowRight
                 size={16}
                 style={{
@@ -178,7 +200,7 @@ function Hero({ onContact }: { onContact: () => void }) {
               />
             </button>
             <button className="btn-ghost" onClick={onContact}>
-              Start a Project
+              {t('btnStart')} 
             </button>
           </div>
         </div>
@@ -280,13 +302,20 @@ const INITIAL_VIDEOS: VideoItem[] = [
 ];
 
 function Works() {
+  const t = useTranslations('portofolio');
   const [ref, visible] = useInView();
   const [filter, setFilter] = useState<"All" | "Long Shoot" | "Short Shoot">(
     "All"
   );
   const [videos] = useState<VideoItem[]>(INITIAL_VIDEOS);
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
-
+  const filterValues = ["All", "Long Shoot", "Short Shoot"] as const;
+  type FilterType = typeof filterValues[number];
+  const filterLabels: Record<FilterType, string> = {
+  "All": t('all'),
+  "Long Shoot": t('longshoot'),
+  "Short Shoot": t('shortshoot'),
+};
   const filtered =
     filter === "All" ? videos : videos.filter((v) => v.category === filter);
 
@@ -300,7 +329,7 @@ function Works() {
       <div className={`fade-up ${visible ? "visible" : ""}`}>
         <div className="section-label">Portfolio</div>
         <h2 className="section-title">
-          Our <span className="gradient-text">Works</span>
+          {t('heading1')} <span className="gradient-text">{t('heading2')}</span>
         </h2>
       </div>
 
@@ -308,7 +337,7 @@ function Works() {
         className={`filter-tabs fade-up ${visible ? "visible" : ""}`}
         style={{ transitionDelay: "0.15s" }}
       >
-        {(["All", "Long Shoot", "Short Shoot"] as const).map((f) => (
+        {([t('all'), t('longshoot'), t('shortshoot')] as const).map((f) => (
           <button
             key={f}
             className={`filter-tab${filter === f ? " active" : ""}`}
@@ -404,25 +433,26 @@ function Works() {
 
 function Services() {
   const [ref, visible] = useInView();
+  const t = useTranslations('services')
 
   const cards = [
     {
       num: "01",
       icon: <Film size={22} />,
       name: "2D/3D Motion Design",
-      body: "From kinetic typography to complex 3D compositing, we create motion that transcends the ordinary.",
+      body: t('bdy1'),
     },
     {
       num: "02",
       icon: <Layers size={22} />,
       name: "Visual Effects (VFX)",
-      body: "Seamless compositing, particle systems, and real-time rendering that push the boundaries of digital reality.",
+      body:t('bdy2'),
     },
     {
       num: "03",
       icon: <Scissors size={22} />,
       name: "Advanced Video Editing",
-      body: "Precision cuts, color grading, and narrative pacing that transforms raw footage into cinematic gold.",
+      body: t('bdy3'),
     },
   ];
 
@@ -432,9 +462,9 @@ function Services() {
         className={`fade-up ${visible ? "visible" : ""}`}
         style={{ marginBottom: "3rem", textAlign: "center" }}
       >
-        <div className="section-label">What We Do</div>
+        <div className="section-label">{t('label')}</div>
         <h2 className="section-title">
-          OUR <span className="gradient-text">EXPERTISE</span>
+          {t('title')} <span className="gradient-text">{t('title2')}</span>
         </h2>
         <h3
           style={{
@@ -460,8 +490,7 @@ function Services() {
             lineHeight: 1.7,
           }}
         >
-          We specialize in the intersection of design and movement, creating
-          seamless visual narratives through advanced post-production techniques.
+          {t('text')}
         </p>
       </div>
 
@@ -485,11 +514,13 @@ function Services() {
 
 function Philosophy() {
   const [ref, visible] = useInView(0.2);
+  const t = useTranslations('philosophy');
+  const words = t.raw('words') as string[];
 
   return (
     <div className="philosophy-wrap section-full" id="philosophy">
       <div className="philosophy-bg" />
-      <div className="philosophy-vert">PHILOSOPHY</div>
+      <div className="philosophy-vert">{t("philotext")}</div>
 
       <div
         ref={ref as React.RefObject<HTMLDivElement>}
@@ -498,13 +529,7 @@ function Philosophy() {
         <div className={`fade-up ${visible ? "visible" : ""}`}>
           <p className="philosophy-quote">
             <Typewriter
-              words={[
-                "Every pixel should move with intent.",
-                "Motion is the language of emotion.",
-                "We craft stories frame by frame.",
-                "Design that breathes and flows.",
-                "Precision meets artistic fluidity.",
-              ]}
+              words={words}
               speed={55}
               delayBetweenWords={2800}
               cursor={true}
@@ -516,9 +541,7 @@ function Philosophy() {
           className={`philosophy-body fade-up ${visible ? "visible" : ""}`}
           style={{ transitionDelay: "0.2s" }}
         >
-          METAMOGRAPHIC operates at the nexus of technical precision and
-          artistic fluidity. We don&apos;t just edit clips, we architect motion that
-          commands attention and defines modern digital aesthetic.
+          {t('t1')}
         </p>
       </div>
     </div>
@@ -527,6 +550,7 @@ function Philosophy() {
 
 function Contact() {
   const [ref, visible] = useInView();
+  const t = useTranslations('contact');
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -555,14 +579,14 @@ function Contact() {
         ref={ref as React.RefObject<HTMLDivElement>}
       >
         <div className={`fade-up ${visible ? "visible" : ""}`}>
-          <div className="section-label">Get In Touch</div>
+          <div className="section-label">{t('label')}</div>
           <h2
             className="section-title"
             style={{ fontSize: "clamp(40px,6vw,72px)" }}
           >
-            LET&apos;S BUILD
+            {t('section-title')}
             <br />
-            <span className="gradient-text">SOMETHING EPIC.</span>
+            <span className="gradient-text">{t("something-epic")}.</span>
           </h2>
 
           <div className="contact-info-item">
@@ -575,7 +599,7 @@ function Contact() {
             <div className="contact-icon">
               <MapPin size={18} />
             </div>
-            <span>East Java, Indonesia</span>
+            <span>{t('loc')}</span>
           </div>
           <div className="contact-info-item">
             <div className="contact-icon">
@@ -657,10 +681,10 @@ function Contact() {
                     marginBottom: "0.5rem",
                   }}
                 >
-                  Message Sent!
+                  {t("message-sent")}
                 </h3>
                 <p style={{ color: "rgba(248,250,252,0.5)" }}>
-                  We&apos;ll get back to you within 24 hours.
+                  {t('notif')}
                 </p>
               </div>
             ) : (
@@ -673,7 +697,7 @@ function Contact() {
                   }}
                 >
                   <div className="form-group">
-                    <label className="form-label">Name</label>
+                    <label className="form-label">{t('form-label-name')}</label>
                     <input
                       className="form-input"
                       placeholder="Your name"
@@ -694,13 +718,13 @@ function Contact() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Service</label>
+                  <label className="form-label">{t('service')}</label>
                   <select
                     className="form-input"
                     value={form.service}
                     onChange={(e) => update("service", e.target.value)}
                   >
-                    <option value="">Select Service</option>
+                    <option value="">{t('service-selection')}</option>
                     <option>Motion Design</option>
                     <option>VFX & Compositing</option>
                     <option>Video Editing</option>
@@ -708,7 +732,7 @@ function Contact() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Message</label>
+                  <label className="form-label">{t('messages')}</label>
                   <textarea
                     className="form-input"
                     rows={4}

@@ -20,7 +20,8 @@
     "heading2" : "Works",
     "shortshoot" : "Short Shoot",
     "longshoot" : "Long Shoot",
-    "videofile" : "Video File"
+    "videofile" : "Video File",
+    "all" : "All"
   },
    "services" : {
     "bdy1" : "From kinetic typography to complex 3D compositing, we create motion that transcends the ordinary.",

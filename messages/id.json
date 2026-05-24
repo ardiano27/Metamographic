@@ -20,7 +20,8 @@
     "heading2" : "Kami",
     "shortshoot" : "Video Pendek",
     "longshoot" : "Video Panjang",
-    "videofile" : "File Video"
+    "videofile" : "File Video",
+    "all" : "Semua"
   },
   "services" : {
     "bdy1" : "Dari tipografi kinetik hingga compositing 3D yang kompleks, kami menciptakan motion yang melampaui hal biasa.",
@@ -40,12 +41,12 @@
       "Desain yang bernafas dan mengalir.",
       "Presisi bertemu fluiditas artistik."
     ],
-    "t1" : "**METAMOGRAPHIC** beroperasi di titik pertemuan antara presisi teknis dan keluwesan artistik. Kami tidak sekadar mengedit klip, kami merancang motion yang mampu menarik perhatian dan mendefinisikan estetika digital modern."
+    "t1" : "METAMOGRAPHIC beroperasi di titik pertemuan antara presisi teknis dan keluwesan artistik. Kami tidak sekadar mengedit klip, kami merancang motion yang mampu menarik perhatian dan mendefinisikan estetika digital modern."
   },
   "contact" : {
     "label" : "Hubungi Kami",
     "section-title" : "Mari Membangun",
-    "something-epic" : "Sesuatu Yang Epic",
+    "something-epic" : "Sesuatu Yang Epic.",
     "loc" : "Jawa Barat, Indonesia",
     "message-sent" : "Pesan Terkirim!",
     "notif" : "Kami akan menghubungi Anda kembali dalam waktu 24 jam.",
@@ -59,5 +60,9 @@
     "marquee-title" : "Kenali Tim",
     "marquee-title2" : "Kami",
     "team-marquee-subtitle" : "Pikiran-pikiran kreatif di balik METAMOGRAPHIC — bersama-sama menciptakan motion, desain, dan pengalaman sinematik."
+  },
+  "profile" : {
+    "education" : "Pendidikan",
+    "language" : "Bahasa"
   }
 }
